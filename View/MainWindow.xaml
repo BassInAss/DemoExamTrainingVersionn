@@ -1,0 +1,95 @@
+﻿<Window x:Class="PreparingExmPrj.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PreparingExmPrj"
+        xmlns:converters="clr-namespace:PreparingExmPrj.Converters"
+        mc:Ignorable="d" Background="Black"
+        Title="MainWindow" Height="500" Width="1000">
+    <Window.Resources>
+        <converters:ImgPathConverter x:Key="ImgConverter"></converters:ImgPathConverter>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="ContextMenu">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContextMenu">
+                        <Border Background="Transparent" BorderBrush="White" BorderThickness="1">
+                            <MenuItem Click="addProduct_button_Click"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Label Content="Добавить в корзину" Foreground="White" Cursor="Hand" Background="Black" FontWeight="Normal" FontSize="14"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+            <Border Cursor="Hand" x:Name="cart_buttonBorder" Visibility="Hidden" Background="Transparent" Grid.Column="1" Margin="15" BorderBrush="White" BorderThickness="1">
+                <Label Foreground="White" Content="Корзина" PreviewMouseLeftButtonDown="cart_button_PreviewMouseLeftButtonDown"/>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ListBox x:Name="product_listbox" HorizontalContentAlignment="Stretch" Background="Black" VirtualizingPanel.ScrollUnit="Pixel">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0 10 0 0" BorderBrush="White" BorderThickness="1" x:Name="product_border">
+                            <Grid Background="Transparent">
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Добавить в корзину" Click="addProduct_button_Click" Background="Transparent" BorderBrush="White" BorderThickness="1"/>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="15"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="15"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="15"/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="15"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Width="50" Height="50" Grid.Column="1" Grid.Row="1" Source="{Binding Image, Converter={StaticResource ImgConverter}}"/>
+                                </Grid>
+                                <Label Foreground="White" Grid.Column="1" Content="{Binding Name}"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
